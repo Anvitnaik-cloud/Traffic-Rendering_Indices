@@ -39,13 +39,13 @@ FRUIT_KEYWORDS = [
 def _get_model():
     global _model
     if _model is None:
-        from tensorflow.keras.applications import MobileNetV2
+        from tensorflow.keras.applications import MobileNetV2  # type: ignore
         _model = MobileNetV2(weights="imagenet", include_top=True)
     return _model
 
 
 def _get_imagenet_labels():
-    from tensorflow.keras.applications.mobilenet_v2 import decode_predictions
+    from tensorflow.keras.applications.mobilenet_v2 import decode_predictions  # type: ignore
     return decode_predictions
 
 
@@ -58,7 +58,7 @@ class FruitClassifier:
     def _preprocess(self, image_bytes: bytes) -> np.ndarray:
         """Load image bytes and preprocess for MobileNetV2 (224x224)."""
         img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-        img = img.resize((224, 224), Image.LANCZOS)
+        img = img.resize((224, 224), Image.LANCZOS)  # type: ignore
         arr = np.array(img, dtype=np.float32)
         # MobileNetV2 preprocessing: scale to [-1, 1]
         arr = (arr / 127.5) - 1.0
